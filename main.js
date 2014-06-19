@@ -41,13 +41,15 @@ var circleAction = function() {
   return action;
 }
 
+var h = 400;
+var k = 400;
+var r = 100;
+
 var arcAction = function(start, end) {
   var cos = Math.cos;
   var sin = Math.sin;
   var theta = start;
-  var h = 400;
-  var k = 400;
-  var r = 100;
+
   var prev = {x: h+r*cos(theta), y: k+r*sin(theta)}
   var action = new TouchAction(driver);
   action.press(prev);
@@ -61,12 +63,35 @@ var arcAction = function(start, end) {
   return action;
 }
 
+var innerArcAction = function(start, end) {
+  var cos = Math.cos;
+  var sin = Math.sin;
+  var theta = start;
+
+  var iterations = 0;
+
+  var prev = {x: h+r*cos(theta), y: k+r*sin(theta)}
+  var action = new TouchAction(driver);
+  action.press(prev);
+  for (; theta < end; theta+=2*pi/100) {
+    var rad = r - (theta-start)
+    var next = {x: h+rad*cos(theta), y: k+rad*sin(theta)}
+    var offset = {x: next.x-prev.x, y: next.y-prev.y}
+    action.moveTo(offset);
+    prev = next;
+    iterations++;
+  }
+  action.release();
+  return action;
+}
+
 var multiAction = function() {
   var multi = new MultiAction();
   multi.add(
     arcAction(0, 2*pi/3*1),
     arcAction(2*pi/3*1, 2*pi/3*2),
-    arcAction(2*pi/3*2, 2*pi/3*3)
+    arcAction(2*pi/3*2, 2*pi/3*3),
+    innerArcAction(0, 2*pi/3*1)
   );
   return multi;
 }
