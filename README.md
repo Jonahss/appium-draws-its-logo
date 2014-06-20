@@ -1,3 +1,5 @@
+![Appium Logo Drawing](/third.gif)
+
 Install appium and wd.js
 
 Run appium, have iOS 7.1 simulator installed
