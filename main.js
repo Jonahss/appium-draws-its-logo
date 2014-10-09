@@ -1,6 +1,7 @@
 var wd = require('wd');
 var TouchAction = require('wd').TouchAction;
 var MultiAction = require('wd').MultiAction;
+var webviewApp = require('sample-apps')('WebViewApp7.1');
 
 var driver = wd.remote('localhost', 4723);
 var pi = Math.PI;
@@ -9,7 +10,7 @@ var caps = {
   platformName: 'iOS',
   platformVersion: '7.1',
   deviceName: 'iPad',
-  app: '/Users/jonahss/Workspace/appium/sample-code/apps/WebViewApp/build/Release-iphonesimulator/WebViewApp.app'
+  app: webviewApp
 }
 
 var drawLine =function(x1, y1, x2, y2){
@@ -106,11 +107,11 @@ var innerArcMulti = function() {
 }
 
 driver.init(caps, function() {
-  driver.elementByAccessibilityId('Enter URL', function(err, el) {
-    el.sendKeys('http://lukasolson.github.io/multi-touch-draw/', function(){
-      driver.elementByAccessibilityId('Go', function(err, el) {
+  driver.elementByClassName('UIATextField', function(err, el) {
+    el.sendKeys('jonahss.github.io/multi-touch-draw/', function(){
+      driver.elementByClassName('UIAButton', function(err, el) {
         el.click(function (){
-          driver.sleep('2000', function(){
+          driver.sleep('4000', function(){
             driver.performMultiAction(multiAction(), function() {
               driver.performMultiAction(innerArcMulti());
             });
