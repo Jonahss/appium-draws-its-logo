@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/Jonahss/appium-draws-its-logo",
   "dependencies": {
-    "sample-apps": "^1.0.3",
+    "multi-touch-draw-app": "^1.0.0",
     "wd": "^0.3.8"
   }
 }

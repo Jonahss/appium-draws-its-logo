@@ -1,15 +1,16 @@
 var wd = require('wd');
+var path = require('path');
 var TouchAction = require('wd').TouchAction;
 var MultiAction = require('wd').MultiAction;
-var webviewApp = require('sample-apps')('WebViewApp7.1');
+var webviewApp = path.resolve(require.resolve('multi-touch-draw-app'), '..', require('multi-touch-draw-app')[1]);
 
 var driver = wd.remote('localhost', 4723);
 var pi = Math.PI;
 
 var caps = {
   platformName: 'iOS',
-  platformVersion: '7.1',
-  deviceName: 'iPad',
+  platformVersion: '8.4',
+  deviceName: 'iPhone 6',
   app: webviewApp
 }
 
@@ -42,8 +43,8 @@ var circleAction = function() {
   return action;
 }
 
-var h = 400;
-var k = 400;
+var h = 150;
+var k = 150;
 var r = 100;
 
 var arcAction = function(start, end) {
@@ -107,17 +108,10 @@ var innerArcMulti = function() {
 }
 
 driver.init(caps, function() {
-  driver.elementByClassName('UIATextField', function(err, el) {
-    el.sendKeys('jonahss.github.io/multi-touch-draw/', function(){
-      driver.elementByClassName('UIAButton', function(err, el) {
-        el.click(function (){
-          driver.sleep('4000', function(){
-            driver.performMultiAction(multiAction(), function() {
-              driver.performMultiAction(innerArcMulti());
-            });
-          })
-        });
-      });
+
+  driver.sleep('2000', function(){
+    driver.performMultiAction(multiAction(), function() {
+      driver.performMultiAction(innerArcMulti());
     });
   })
 });
